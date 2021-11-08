@@ -10,10 +10,52 @@ const OrderSchema = new mongoose.Schema({
 		required: true,
 		index: true,
 	},
+	address: {
+		type: {
+			country: {
+				type: String,
+				required: true,
+			},
+			state: {
+				type: String,
+				required: false,
+			},
+			devision: {
+				type: String,
+				required: false,
+			},
+			district: {
+				type: String,
+				required: true,
+			},
+			street: {
+				type: String,
+				required: true,
+			},
+			post: {
+				type: Number,
+				required: true,
+			},
+			phone: {
+				type: String,
+				required: true,
+			},
+		},
+		required: true,
+	},
+	note: {
+		type: String,
+		required: false,
+	},
 	time: {
 		type: Date,
 		required: true,
 		default: Date.now,
+	},
+	isComplete: {
+		type: Boolean,
+		required: true,
+		default: false,
 	},
 	cart: [
 		{

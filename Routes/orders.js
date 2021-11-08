@@ -22,16 +22,17 @@ async function getOrder(req, res, next) {
  */
 // * Creat one order
 router.post("/", async (req, res) => {
-	const products = req.body.cart.map((item) => {
-		item._id = mongoose.Types.ObjectId(item._id);
-		return item;
-	});
-
-	const order = new Order({
-		customer_id: mongoose.Types.ObjectId(req.body.customer_id),
-		cart: products,
-	});
 	try {
+		const products = req.body.cart.map((item) => {
+			item._id = mongoose.Types.ObjectId(item._id);
+			return item;
+		});
+
+		const order = new Order({
+			customer_id: mongoose.Types.ObjectId(req.body.customer_id),
+			cart: products,
+			address: req.body.address,
+		});
 		const newOrder = await order.save();
 		res.status(201).json(newOrder);
 	} catch (error) {
@@ -53,10 +54,15 @@ router.get("/:id", getOrder, (req, res) => {
 });
 // * Update single order
 router.patch("/:id", getOrder, async (req, res) => {
-	for (key in req.body) {
-		if (req.body[key]) {
-			res.order[key] = req.body[key];
-		}
+	if (req.body.cart.length >= 0) {
+		const cart = [...req.body.cart];
+		cart.forEach((item) => {
+			item._id = mongoose.Types.ObjectId(item._id);
+		});
+		res.order.cart = cart;
+	}
+	if (req.body.hasOwnProperty("isComplete")) {
+		res.order.isComplete = req.body.isComplete;
 	}
 	try {
 		const updateOrder = await res.order.save();

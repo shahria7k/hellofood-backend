@@ -19,7 +19,7 @@ async function getItem(req, res, next) {
 // * Create Single Item in the menu
 router.post("/", async (req, res) => {
 	const item = new Item({
-		title: req.body.tite,
+		title: req.body.title,
 		description: req.body.description,
 		price: req.body.price,
 		imgURL: req.body.imgURL,
@@ -64,7 +64,7 @@ router.patch("/:id", getItem, async (req, res) => {
 router.delete("/:id", getItem, async (req, res) => {
 	try {
 		await res.item.remove();
-		res.status(204).json({ message: "Deleted Item from the menu" });
+		res.json({ message: "Deleted Item from the menu" });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

@@ -16,6 +16,39 @@ const UserSchema = new mongoose.Schema({
 		required: true,
 		default: Date.now,
 	},
+	address: {
+		type: {
+			country: {
+				type: String,
+				required: true,
+			},
+			state: {
+				type: String,
+				required: false,
+			},
+			Devision: {
+				type: String,
+				required: false,
+			},
+			district: {
+				type: String,
+				required: true,
+			},
+			street: {
+				type: String,
+				required: true,
+			},
+			post: {
+				type: Number,
+				required: true,
+			},
+			phone: {
+				type: String,
+				required: true,
+			},
+		},
+		required: false,
+	},
 	isAdmin: {
 		type: Boolean,
 		required: true,
