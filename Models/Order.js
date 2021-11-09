@@ -4,43 +4,16 @@ const User = require("./User");
 const Item = require("./Item");
 
 const OrderSchema = new mongoose.Schema({
-	customer_id: {
-		type: mongoose.Schema.ObjectId,
-		ref: User,
+	email: {
+		type: String,
 		required: true,
-		index: true,
 	},
 	address: {
-		type: {
-			country: {
-				type: String,
-				required: true,
-			},
-			state: {
-				type: String,
-				required: false,
-			},
-			devision: {
-				type: String,
-				required: false,
-			},
-			district: {
-				type: String,
-				required: true,
-			},
-			street: {
-				type: String,
-				required: true,
-			},
-			post: {
-				type: Number,
-				required: true,
-			},
-			phone: {
-				type: String,
-				required: true,
-			},
-		},
+		type: String,
+		required: true,
+	},
+	phone: {
+		type: String,
 		required: true,
 	},
 	note: {
@@ -57,22 +30,30 @@ const OrderSchema = new mongoose.Schema({
 		required: true,
 		default: false,
 	},
+	isPaid: {
+		type: Boolean,
+		required: true,
+		default: false,
+	},
 	cart: [
 		{
-			type: {
-				item_name: String,
-				_id: {
-					type: mongoose.Schema.ObjectId,
-					ref: Item,
-					required: true,
-				},
-
-				quantity: {
-					type: Number,
-					required: true,
-				},
+			_id: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Item",
+				required: true,
 			},
-			required: true,
+			name: {
+				type: String,
+				required: true,
+			},
+			quantity: {
+				type: Number,
+				required: true,
+			},
+			price: {
+				type: Number,
+				required: true,
+			},
 		},
 	],
 });

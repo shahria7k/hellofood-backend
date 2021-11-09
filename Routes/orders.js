@@ -29,9 +29,10 @@ router.post("/", async (req, res) => {
 		});
 
 		const order = new Order({
-			customer_id: mongoose.Types.ObjectId(req.body.customer_id),
+			email: req.body.email,
 			cart: products,
 			address: req.body.address,
+			phone: req.body.phone,
 		});
 		const newOrder = await order.save();
 		res.status(201).json(newOrder);
@@ -48,10 +49,21 @@ router.get("/", async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 });
+router.get("/myorders", async (req, res) => {
+	try {
+		const orders = await Order.find({ email: req.query.email });
+		res.send(orders);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+});
 // * Read single order by id
 router.get("/:id", getOrder, (req, res) => {
 	res.json(res.order);
 });
+
+// * Read All orders by user email
+
 // * Update single order
 router.patch("/:id", getOrder, async (req, res) => {
 	if (req.body.cart.length >= 0) {
@@ -75,7 +87,7 @@ router.patch("/:id", getOrder, async (req, res) => {
 router.delete("/:id", getOrder, async (req, res) => {
 	try {
 		await res.order.remove();
-		res.status(204).json({ message: "Deleted Order" });
+		res.json({ message: "Deleted Order" });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
