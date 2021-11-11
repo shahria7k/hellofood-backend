@@ -76,6 +76,12 @@ router.patch("/:id", getOrder, async (req, res) => {
 	if (req.body.hasOwnProperty("isComplete")) {
 		res.order.isComplete = req.body.isComplete;
 	}
+	if (req.body.hasOwnProperty("isPaid")) {
+		res.order.isPaid = req.body.isPaid;
+	}
+	if (req.body.hasOwnProperty("address")) {
+		res.order.address = req.body.address;
+	}
 	try {
 		const updateOrder = await res.order.save();
 		res.json(updateOrder);
