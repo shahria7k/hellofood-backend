@@ -82,6 +82,9 @@ router.patch("/:id", getOrder, async (req, res) => {
 	if (req.body.hasOwnProperty("address")) {
 		res.order.address = req.body.address;
 	}
+	if (req.body.hasOwnProperty("phone")) {
+		res.order.phone = req.body.phone;
+	}
 	try {
 		const updateOrder = await res.order.save();
 		res.json(updateOrder);
