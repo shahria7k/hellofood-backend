@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios= require('axios')
 // redeploy
 // Setting up server and middlewares
 const express = require("express");
@@ -50,7 +51,29 @@ app.get("/", (req, res) => {
 });
 
 // Starting Server
-
+app.get("/webhook", async (req, res) => {
+	const payload= JSON.stringify({
+consignment_id:"DL130721VS8TTJ",
+merchant_order_id:"Ts-1234",
+order_status:"Received at Last Mile HUB",
+order_status_slug:"Received_at_Last_Mile_HUB",
+updated_at:"2021-07-14 11:47:22"
+})
+	let response = await axios.request({
+		url: "http://127.0.0.1:4002/shukran-erp-v2/asia-southeast1/APIs/webhook/pathao", 
+		method: "POST",
+		data: payload, 
+		headers: {
+			"Content-type": "Application/json",
+			"Origin": "X-Pathao",
+			"Authorization": "Bearer test-token"
+		}
+		,
+	
+	}).then(res => res.data).catch(e => (e.message))
+	console.log(response)
+	res.json(response)
+})
 app.listen(port, () => {
 	console.log(`app is listening on http://localhost:${port}`);
 });
